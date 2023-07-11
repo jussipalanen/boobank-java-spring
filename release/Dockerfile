@@ -9,4 +9,5 @@ RUN mvn -f /home/app/pom.xml clean package
 # Stage
 FROM openjdk:17
 COPY --from=build /home/app/target/release-0.0.1-SNAPSHOT.jar /usr/local/lib/release.jar
+EXPOSE 8081
 ENTRYPOINT ["java","-jar","/usr/local/lib/release.jar"]

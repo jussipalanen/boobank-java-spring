@@ -19,7 +19,6 @@ services:
     ports:
       - 8181:8080
   app:
-    container_name: app_dev
     build:
       context: .
       dockerfile: Dockerfile
