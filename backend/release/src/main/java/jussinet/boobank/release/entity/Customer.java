@@ -46,7 +46,7 @@ public class Customer {
     @JoinColumn(name = "customer_id")
     @JsonManagedReference("customer")
     private List<Transaction> transactionDetails;
-
+    
     public Long getId() {
         return id;
     }
