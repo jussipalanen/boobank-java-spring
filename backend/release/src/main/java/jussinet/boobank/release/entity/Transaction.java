@@ -7,10 +7,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,19 +36,19 @@ public class Transaction {
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
+    private Date date;
 
-    @Column(name = "name")
-    private String name;
 
-    @Column(name = "message", columnDefinition = "TEXT")
+    @Column(name = "comment", columnDefinition = "TEXT")
     private String message;
-
-    @Column(name = "long_message")
-    private String longMessage;
 
     @Column(name = "amount")
     private Float amount;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    @JsonBackReference("customer")
+    private Customer customer;
 
     public UUID getId() {
         return id;
@@ -54,20 +58,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getDate() {
+        return date;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getMessage() {
@@ -78,14 +74,6 @@ public class Transaction {
         this.message = message;
     }
 
-    public String getLongMessage() {
-        return longMessage;
-    }
-
-    public void setLongMessage(String longMessage) {
-        this.longMessage = longMessage;
-    }
-
     public Float getAmount() {
         return amount;
     }
@@ -93,4 +81,13 @@ public class Transaction {
     public void setAmount(Float amount) {
         this.amount = amount;
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
 }

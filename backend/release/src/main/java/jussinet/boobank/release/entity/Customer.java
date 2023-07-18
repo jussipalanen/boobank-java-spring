@@ -1,10 +1,15 @@
 package jussinet.boobank.release.entity;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,7 +21,7 @@ public class Customer {
     @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
@@ -28,7 +33,7 @@ public class Customer {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "balance")
@@ -36,6 +41,11 @@ public class Customer {
 
     @Column(name = "is_active")
     private Boolean isActive;
+
+    @OneToMany
+    @JoinColumn(name = "customer_id")
+    @JsonManagedReference("customer")
+    private List<Transaction> transactionDetails;
 
     public Long getId() {
         return id;
@@ -99,6 +109,14 @@ public class Customer {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public List<Transaction> getTransactionDetails() {
+        return transactionDetails;
+    }
+
+    public void setTransactionDetails(List<Transaction> transactionDetails) {
+        this.transactionDetails = transactionDetails;
     }
 
 }
