@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!-- To use thymeleaf -->
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header.html"></head>
+
+<body>
+    <div th:include="fragments/navigation.html"></div>
+    <div class="container">
+        <div th:include="fragments/back.html"></div>
+        <form method="GET">
+            <div class="form-group">
+                <label for="month">Year:</label>
+                <select class="form-control" name="year">
+                    <option th:each="yearVal: ${years}" th:selected="${year==yearVal}" th:value="${yearVal}" th:text="${yearVal}">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="month">Month:</label>
+                <select class="form-control" name="month">
+                    <option th:each="monthItem: ${months}" th:selected="${month==monthItem.number}" th:value="${monthItem.number}" th:text="${monthItem.name}">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Search">
+            </div>
+        </form>
+
+        <table class="table">
+            <thead>
+                <th scope="col">Transaction ID</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th scope="col">Message</th>
+            </thead>
+            <tbody>
+                <tr th:each="transaction: ${transactions}">
+                    <th scope="row" th:text="${transaction.id}" />
+                    <td th:text="${#numbers.formatCurrency(transaction.amount)}" />
+                    <td th:text="${#dates.format(transaction.date, 'dd.MM.yyyy')}" />
+                    <td th:text="${transaction.message}" />
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            Month balance: <b th:text=${monthBalance}></b>
+        </p>
+    </div>
+</body>
+</html>

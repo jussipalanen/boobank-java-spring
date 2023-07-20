@@ -6,4 +6,5 @@ public interface TransactionData {
     public UUID getId();
     public Float getAmount();
     public Date getDate();
+    public String getMessage();
 }

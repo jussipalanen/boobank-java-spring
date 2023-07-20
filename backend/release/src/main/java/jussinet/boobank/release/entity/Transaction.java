@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -16,6 +17,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "transactions")
@@ -35,15 +38,20 @@ public class Transaction {
     private UUID id = UUID.randomUUID();
 
     @CreatedDate
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date date;
-
 
     @Column(name = "comment", columnDefinition = "TEXT")
     private String message;
 
+    @NotNull
     @Column(name = "amount")
-    private Float amount;
+    private Float amount = null;
+
+    @Transient
+    private String transferMethod;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -80,6 +88,14 @@ public class Transaction {
 
     public void setAmount(Float amount) {
         this.amount = amount;
+    }
+
+    public String getTransferMethod() {
+        return transferMethod;
+    }
+
+    public void setTransferMethod(String transferMethod) {
+        this.transferMethod = transferMethod;
     }
 
     public Customer getCustomer() {

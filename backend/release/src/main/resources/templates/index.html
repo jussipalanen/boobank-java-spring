@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<!-- To use thymeleaf -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header.html"></head>
+    <body>
+        <div th:include="fragments/navigation.html"></div>
+        <div class="container">
+            <p>Hello customer</p>
+            <p>
+                Your current balance is: <b th:text=${cumulativeSum}></b>
+            </p>
+        </div>
+    </body>
+</html>

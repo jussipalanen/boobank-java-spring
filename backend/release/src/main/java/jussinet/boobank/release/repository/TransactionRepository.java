@@ -15,9 +15,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
      * Fetching all of the transactions with the specific fields
      * @return
      */
-    @Query(value = "select t.id as id, t.amount as amount, t.created_at as date from transactions t ORDER BY t.created_at DESC", nativeQuery = true)
-    List<TransactionData> findAllTransactions();
-
-    @Query(value = "SELECT id, amount, created_at, long_message, message, name, comment, customer_id FROM public.transactions WHERE EXTRACT('month' FROM created_at) = :month AND EXTRACT('year' FROM created_at) = :year ORDER BY created_at DESC", nativeQuery = true)
-    List<Transaction> findAllTransactionsByMonthAndYear(@Param(value = "month") Integer month, @Param(value = "year") Integer year);
+    @Query(value = "SELECT transactions.id, transactions.created_at as date, transactions.amount, transactions.comment as message FROM transactions " +
+    "WHERE (:month is null OR EXTRACT('month' FROM created_at) = :month) AND " + 
+    "(:year is null OR EXTRACT('year' FROM created_at) = :year) AND " +
+    "(:customer_id is null OR customer_id = :customer_id) " + 
+    "ORDER BY created_at DESC", nativeQuery = true)
+    List<TransactionData> findAllTransactions(@Param(value = "month") Integer month, @Param(value = "year") Integer year, @Param(value = "customer_id") Integer customer_id);
 }

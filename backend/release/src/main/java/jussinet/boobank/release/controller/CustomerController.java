@@ -34,7 +34,7 @@ public class CustomerController {
     }
 
     /**
-     * Get single customer by id
+     * Get a single customer by id
      * 
      * @param id
      * @return
@@ -46,6 +46,11 @@ public class CustomerController {
 
 
     @PostMapping
+    /**
+     * Create a new customer
+     * @param customer
+     * @return
+     */
     public Customer post(Customer customer)
     {
         repository.save(customer);

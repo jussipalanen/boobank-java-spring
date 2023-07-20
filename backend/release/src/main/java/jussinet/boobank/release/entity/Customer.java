@@ -1,6 +1,7 @@
 package jussinet.boobank.release.entity;
 import java.util.List;
 
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -46,7 +47,7 @@ public class Customer {
     @JoinColumn(name = "customer_id")
     @JsonManagedReference("customer")
     private List<Transaction> transactionDetails;
-    
+
     public Long getId() {
         return id;
     }
@@ -118,5 +119,4 @@ public class Customer {
     public void setTransactionDetails(List<Transaction> transactionDetails) {
         this.transactionDetails = transactionDetails;
     }
-
 }
