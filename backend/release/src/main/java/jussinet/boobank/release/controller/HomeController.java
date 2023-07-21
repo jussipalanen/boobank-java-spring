@@ -3,6 +3,7 @@ package jussinet.boobank.release.controller;
 import java.text.DateFormatSymbols;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -118,10 +119,15 @@ public class HomeController {
             year = cal.get(Calendar.YEAR);
         }
 
+        // get first day and last day by month and year
+        String startDateStr = YearMonth.of(year, month).atDay(1).toString();
+        String endDateStr = YearMonth.of(year, month).atEndOfMonth().toString();
         size = size != null && size > 0 ? size : 10;
+
         Pageable pageable = PageRequest.of((page != null && page > 0 ? (page - 1) : 0), size);
+       
         Page<TransactionData> transactions = transactionRepository.findAllPaged(month, year, null, pageable);
-        Float monthlyBalance = customerRepository.findMonthlyBalance(month, year);
+        Float monthlyBalance = customerRepository.findMonthlyBalance(startDateStr, endDateStr);
         monthlyBalance = monthlyBalance != null ? monthlyBalance : 0;
 
         Currency currency = Currency.getInstance("EUR");
