@@ -7,55 +7,59 @@
 <body>
     <div th:include="fragments/navigation.html"></div>
     <div class="container">
-        <h2>API Docs</h2>
-        <div th:include="fragments/back.html"></div>
-        <p>This page is for the API documentation and examples.</p>
-        <div class="api-item">
-            <h3>Transactions</h3>
-            <p>Fetch all transactions</p>
-        <code th:text=|${baseApiUrl}/transactions|></code>
-<pre>
-    <code>  
-            [
-                {
-                    "amount": 5000.00,
-                    "message": "test1",
-                    "id": "7f000101-8972-121a-8189-731360fd0005",
-                    "date": "2023-07-28T21:00:00.000+00:00"
-                },
-                {
-                    "amount": 10.0,
-                    "message": "test2",
-                    "id": "7f000101-8972-121a-8189-72e2a8620000",
-                    "date": "2023-07-20T10:40:04.181+00:00"
-                },
-                {
-                    "amount": -500.00,
-                    "message": "test3",
-                    "id": "7f000101-8972-121a-8189-72e799dd0003",
-                    "date": "2023-07-11T21:00:00.000+00:00"
-                },
-                {
-                    "amount": 12345.0,
-                    "message": "test4",
-                    "id": "7f000101-8972-121a-8189-72e6041f0001",
-                    "date": "2023-06-30T21:00:00.000+00:00"
-                },
-                {
-                    "amount": 666.0,
-                    "message": "test5",
-                    "id": "7f000101-8972-121a-8189-72e7e43c0004",
-                    "date": "2023-06-05T21:00:00.000+00:00"
-                },
-                {
-                    "amount": 555555.0,
-                    "message": "test6",
-                    "id": "7f000101-8972-121a-8189-72e685a70002",
-                    "date": "2023-05-31T21:00:00.000+00:00"
-                }
-            ]
-            </code>
-        </pre>
+        <div class="row mt-3">
+            <div class="col">
+                <h2>API Docs</h2>
+                <div th:include="fragments/back.html"></div>
+                <p>This page is for the API documentation and examples.</p>
+                <div class="api-item">
+                    <h3>Transactions</h3>
+                    <p>Fetch all transactions</p>
+                    <code th:text=|${baseApiUrl}/transactions|></code>
+                    <pre>
+            <code>  
+                    [
+                        {
+                            "amount": 5000.00,
+                            "message": "test1",
+                            "id": "7f000101-8972-121a-8189-731360fd0005",
+                            "date": "2023-07-28T21:00:00.000+00:00"
+                        },
+                        {
+                            "amount": 10.0,
+                            "message": "test2",
+                            "id": "7f000101-8972-121a-8189-72e2a8620000",
+                            "date": "2023-07-20T10:40:04.181+00:00"
+                        },
+                        {
+                            "amount": -500.00,
+                            "message": "test3",
+                            "id": "7f000101-8972-121a-8189-72e799dd0003",
+                            "date": "2023-07-11T21:00:00.000+00:00"
+                        },
+                        {
+                            "amount": 12345.0,
+                            "message": "test4",
+                            "id": "7f000101-8972-121a-8189-72e6041f0001",
+                            "date": "2023-06-30T21:00:00.000+00:00"
+                        },
+                        {
+                            "amount": 666.0,
+                            "message": "test5",
+                            "id": "7f000101-8972-121a-8189-72e7e43c0004",
+                            "date": "2023-06-05T21:00:00.000+00:00"
+                        },
+                        {
+                            "amount": 555555.0,
+                            "message": "test6",
+                            "id": "7f000101-8972-121a-8189-72e685a70002",
+                            "date": "2023-05-31T21:00:00.000+00:00"
+                        }
+                    ]
+                    </code>
+                </pre>
+                </div>
+            </div>
         </div>
     </div>
 </body>

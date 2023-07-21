@@ -7,47 +7,76 @@
 <body>
     <div th:include="fragments/navigation.html"></div>
     <div class="container">
-        <div th:include="fragments/back.html"></div>
-        <form method="GET">
-            <div class="form-group">
-                <label for="month">Year:</label>
-                <select class="form-control" name="year">
-                    <option th:each="yearVal: ${years}" th:selected="${year==yearVal}" th:value="${yearVal}" th:text="${yearVal}">
-                </select>
+        <div class="row mt-3">
+            <div class="col">
+                <h2>Monthly balances</h2>
+                <div th:include="fragments/back.html"></div>
+                <form method="GET">
+                    <div class="row mb-3 mt-3">
+                        <div class="col">
+                            <label for="month">Year:</label>
+                            <select class="form-control" name="year">
+                                <option th:each="yearVal: ${years}" th:selected="${year==yearVal}" th:value="${yearVal}"
+                                    th:text="${yearVal}">
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="month">Month:</label>
+                            <select class="form-control" name="month">
+                                <option th:each="monthItem: ${months}" th:selected="${month==monthItem.number}"
+                                    th:value="${monthItem.number}" th:text="${monthItem.name}">
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <label for="month">Show:</label>
+                            <select class="form-control" name="size">
+                                <option th:selected="${size==5}" value="5">5</option>
+                                <option th:selected="${size==10}" value="10">10</option>
+                                <option th:selected="${size==25}" value="25">25</option>
+                                <option th:selected="${size==50}" value="50">50</option>
+                                <option th:selected="${size==100}" value="100">100</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="submit" class="btn btn-primary" value="Search">
+                        </div>
+                    </div>
+                </form>
+
+                <table class="table">
+                    <thead>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Message</th>
+                    </thead>
+                    <tbody>
+                        <tr th:each="transaction: ${transactions}">
+                            <th scope="row" th:text="${transaction.id}" />
+                            <td th:text="${#numbers.formatCurrency(transaction.amount)}" />
+                            <td th:text="${#dates.format(transaction.date, 'dd.MM.yyyy')}" />
+                            <td th:text="${transaction.message}" />
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <div th:if="${transactions.totalPages > 0}" class="page-link" th:each="pageNumber : ${pageNumbers}">
+                        <a th:href="@{/monthly(page=${pageNumber}, size=${transactions.size}, month=${month}, year=${year})}"
+                            th:text=${pageNumber} th:class="${pageNumber==transactions.number + 1} ? active"></a>
+                    </div>
+                </div>
+
+                <p>
+                    Month balance: <b th:text=${monthBalance}></b>
+                </p>
             </div>
-
-            <div class="form-group">
-                <label for="month">Month:</label>
-                <select class="form-control" name="month">
-                    <option th:each="monthItem: ${months}" th:selected="${month==monthItem.number}" th:value="${monthItem.number}" th:text="${monthItem.name}">
-                </select>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Search">
-            </div>
-        </form>
-
-        <table class="table">
-            <thead>
-                <th scope="col">Transaction ID</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Date</th>
-                <th scope="col">Message</th>
-            </thead>
-            <tbody>
-                <tr th:each="transaction: ${transactions}">
-                    <th scope="row" th:text="${transaction.id}" />
-                    <td th:text="${#numbers.formatCurrency(transaction.amount)}" />
-                    <td th:text="${#dates.format(transaction.date, 'dd.MM.yyyy')}" />
-                    <td th:text="${transaction.message}" />
-                </tr>
-            </tbody>
-        </table>
-
-        <p>
-            Month balance: <b th:text=${monthBalance}></b>
-        </p>
+        </div>
     </div>
 </body>
+
 </html>

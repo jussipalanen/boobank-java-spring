@@ -9,8 +9,13 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,7 +51,7 @@ public class HomeController {
         Currency currency = Currency.getInstance("EUR");
 
         // get the cumulative sum
-        Float sum = customerRepository.findCumulativeSum() != null ? customerRepository.findCumulativeSum() : 0;
+        Float sum = customerRepository.findCumulativeBalance() != null ? customerRepository.findCumulativeBalance() : 0;
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setCurrency(currency);
         String str = format.format(sum);
@@ -58,6 +63,7 @@ public class HomeController {
     @GetMapping(value = "/transaction")
     public String getTransaction(Model model) {
         model.addAttribute("transaction", new Transaction());
+        model.addAttribute("defaultMethod", "deposit");
 
         // adding the customers
         List<Customer> customers = customerRepository.findAll();
@@ -68,16 +74,16 @@ public class HomeController {
     @GetMapping(value = "/apidocs")
     public String getApiDocs(Model model) {
 
-        String baseApiUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/api";
+        String baseApiUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/api/v1";
         model.addAttribute("baseApiUrl", baseApiUrl);
         return "apidocs";
     }
 
     @PostMapping(value = "/transaction")
-    public String postTransaction(Model model, @ModelAttribute("transaction") @Valid Transaction transaction, BindingResult result) {
+    public String postTransaction(Model model, @ModelAttribute("transaction") @Valid Transaction transaction,
+            BindingResult result) {
 
-        if( result.hasErrors() )
-        {
+        if (result.hasErrors()) {
             return "redirect:/transaction";
         }
 
@@ -96,13 +102,13 @@ public class HomeController {
 
     @GetMapping("/monthly")
     public String monthly(Model model, @RequestParam(required = false) Integer month,
-            @RequestParam(required = false) Integer year) {
+            @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+                
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
         if (month == null) {
-
             // Default month, if null
             month = cal.get(Calendar.MONTH) + 1;
         }
@@ -112,9 +118,9 @@ public class HomeController {
             year = cal.get(Calendar.YEAR);
         }
 
-        System.out.println(month);
-
-        List<TransactionData> transactions = transactionRepository.findAllTransactions(month, year, null);
+        size = size != null && size > 0 ? size : 10;
+        Pageable pageable = PageRequest.of((page != null && page > 0 ? (page - 1) : 0), size);
+        Page<TransactionData> transactions = transactionRepository.findAllPaged(month, year, null, pageable);
         Float monthlyBalance = customerRepository.findMonthlyBalance(month, year);
         monthlyBalance = monthlyBalance != null ? monthlyBalance : 0;
 
@@ -142,19 +148,27 @@ public class HomeController {
             monthsList.add(monthObject);
         }
 
-        // List of transactions
+        // list of transactions
         model.addAttribute("transactions", transactions);
 
-        // Month balance
+        // month balance
         model.addAttribute("monthBalance", monthBalanceStr);
 
-        // List of years and months
+        // list of years and months
         model.addAttribute("years", yearsList);
         model.addAttribute("months", monthsList);
 
-        // Current month and year
+        // current month and year
         model.addAttribute("month", month);
         model.addAttribute("year", year);
+
+        // pagination
+        Integer totalPages = transactions.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("size", size);
         return "monthly";
     }
 }
