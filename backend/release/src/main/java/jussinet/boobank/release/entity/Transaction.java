@@ -58,6 +58,10 @@ public class Transaction {
     @JsonBackReference("customer")
     private Customer customer;
 
+    @Transient
+    @Column(name = "cumulativesum")
+    private Float cumulativesum;
+
     public UUID getId() {
         return id;
     }
@@ -104,6 +108,14 @@ public class Transaction {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+    
+    public Float getCumulativeSum() {
+        return cumulativesum;
+    }
+
+    public void setCumulativeSum(Float cumulativesum) {
+        this.cumulativesum = cumulativesum;
     }
 
 }

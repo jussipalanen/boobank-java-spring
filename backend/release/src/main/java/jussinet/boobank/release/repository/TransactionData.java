@@ -7,4 +7,5 @@ public interface TransactionData {
     public Float getAmount();
     public Date getDate();
     public String getMessage();
+    public Float getCumulativeSum();
 }

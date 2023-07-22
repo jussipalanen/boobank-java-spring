@@ -126,7 +126,7 @@ public class HomeController {
 
         Pageable pageable = PageRequest.of((page != null && page > 0 ? (page - 1) : 0), size);
        
-        Page<TransactionData> transactions = transactionRepository.findAllPaged(month, year, null, pageable);
+        Page<TransactionData> transactions = transactionRepository.findAllPaged(startDateStr, endDateStr, pageable);
         Float monthlyBalance = customerRepository.findMonthlyBalance(startDateStr, endDateStr);
         monthlyBalance = monthlyBalance != null ? monthlyBalance : 0;
 
@@ -135,6 +135,7 @@ public class HomeController {
         format.setCurrency(currency);
         String monthBalanceStr = format.format(monthlyBalance);
 
+        // Years
         LocalDate d = LocalDate.now();
         List<Integer> yearsList = new ArrayList<>();
         Integer currentYear = d.getYear();
@@ -144,6 +145,7 @@ public class HomeController {
             yearsList.add(d.getYear());
         }
 
+        // Months
         List<Object> monthsList = new ArrayList<Object>();
         String[] months = new DateFormatSymbols().getMonths();
         for (int i = 0; i < (months.length - 1); i++) {

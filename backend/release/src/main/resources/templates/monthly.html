@@ -16,6 +16,7 @@
                         <div class="col">
                             <label for="month">Year:</label>
                             <select class="form-control" name="year">
+                                <option value="">All</option>
                                 <option th:each="yearVal: ${years}" th:selected="${year==yearVal}" th:value="${yearVal}"
                                     th:text="${yearVal}">
                             </select>
@@ -23,6 +24,7 @@
                         <div class="col">
                             <label for="month">Month:</label>
                             <select class="form-control" name="month">
+                                <option value="">All</option>
                                 <option th:each="monthItem: ${months}" th:selected="${month==monthItem.number}"
                                     th:value="${monthItem.number}" th:text="${monthItem.name}">
                             </select>
@@ -53,13 +55,15 @@
                         <th scope="col">Amount</th>
                         <th scope="col">Date</th>
                         <th scope="col">Message</th>
+                        <th scope="col">Cumulative balance</th>
                     </thead>
                     <tbody>
                         <tr th:each="transaction: ${transactions}">
                             <th scope="row" th:text="${transaction.id}" />
-                            <td th:text="${#numbers.formatCurrency(transaction.amount)}" />
+                            <td th:style="${transaction.amount > 0 ? 'color: green;' : 'color: red;'}"th:text="${#numbers.formatDecimal(transaction.amount, 0, 'DEFAULT', 2, 'DEFAULT') + ' &euro;' }" />
                             <td th:text="${#dates.format(transaction.date, 'dd.MM.yyyy')}" />
                             <td th:text="${transaction.message}" />
+                            <td th:style="${'color: blue;'}" th:text="${#numbers.formatDecimal(transaction.cumulativeSum, 0, 'DEFAULT', 2, 'DEFAULT') + ' &euro;'}" />
                         </tr>
                     </tbody>
                 </table>
@@ -72,7 +76,7 @@
                 </div>
 
                 <p>
-                    Month balance: <b th:text=${monthBalance}></b>
+                    Month balance total: <b th:text=${monthBalance}></b>
                 </p>
             </div>
         </div>
