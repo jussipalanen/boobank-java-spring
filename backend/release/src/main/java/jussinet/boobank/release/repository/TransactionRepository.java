@@ -30,9 +30,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             " customer_id, " + 
             " SUM(amount) OVER(ORDER BY created_at) AS cumulativesum  " + 
             "  FROM transactions " + 
-            "  WHERE (:endDateStr is null OR DATE(created_at) <= TO_TIMESTAMP(:endDateStr, 'YYYY-MM-DD')) " + 
+            "  WHERE (:endDateStr IS NULL OR DATE(created_at) <= TO_TIMESTAMP(:endDateStr, 'YYYY-MM-DD')) " + 
             ") t  " + 
-            "WHERE (:startDateStr is null OR date >= TO_TIMESTAMP(:startDateStr, 'YYYY-MM-DD')) " + 
+            "WHERE (:startDateStr IS NULL OR date >= TO_TIMESTAMP(:startDateStr, 'YYYY-MM-DD')) " + 
             "ORDER by date ASC", nativeQuery = true)
     Page<TransactionData> findAllPaged(@Param(value = "startDateStr") String startDateStr, @Param(value = "endDateStr") String endDateStr, Pageable page);
 }

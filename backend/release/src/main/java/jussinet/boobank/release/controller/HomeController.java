@@ -23,7 +23,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -63,7 +62,10 @@ public class HomeController {
 
     @GetMapping(value = "/transaction")
     public String getTransaction(Model model) {
-        model.addAttribute("transaction", new Transaction());
+
+        Transaction transaction = new Transaction();
+        transaction.setDate(new Date());
+        model.addAttribute("transaction", transaction);
         model.addAttribute("defaultMethod", "deposit");
 
         // adding the customers
@@ -84,14 +86,17 @@ public class HomeController {
     public String postTransaction(Model model, @ModelAttribute("transaction") @Valid Transaction transaction,
             BindingResult result) {
 
+        // adding the customers
+        List<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customers", customers);
+
         if (result.hasErrors()) {
-            return "redirect:/transaction";
+            return "transaction";
         }
 
         Float amount = transaction.getAmount();
         String transferMethod = transaction.getTransferMethod();
         if (transferMethod.equals("withdraw")) {
-            System.out.println("Convert negative");
             amount = -amount;
         } else {
             amount = Math.abs(amount);
@@ -101,8 +106,8 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/monthly")
-    public String monthly(Model model, @RequestParam(required = false) Integer month,
+    @GetMapping("/balances")
+    public String balances(Model model, @RequestParam(required = false) Integer month,
             @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
                 
         Date date = new Date();
@@ -177,6 +182,6 @@ public class HomeController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
         model.addAttribute("size", size);
-        return "monthly";
+        return "balances";
     }
 }
