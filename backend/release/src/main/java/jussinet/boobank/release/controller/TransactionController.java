@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jussinet.boobank.release.repository.TransactionApiData;
 import jussinet.boobank.release.repository.TransactionRepository;
+import jussinet.boobank.release.repository.queryinterfaces.TransactionApiData;
 
 @RestController
 @RequestMapping("/api/v1")

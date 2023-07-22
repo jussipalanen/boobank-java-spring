@@ -30,8 +30,8 @@ import jakarta.validation.Valid;
 import jussinet.boobank.release.entity.Customer;
 import jussinet.boobank.release.entity.Transaction;
 import jussinet.boobank.release.repository.CustomerRepository;
-import jussinet.boobank.release.repository.TransactionData;
 import jussinet.boobank.release.repository.TransactionRepository;
+import jussinet.boobank.release.repository.queryinterfaces.TransactionData;
 
 @Controller
 public class HomeController {

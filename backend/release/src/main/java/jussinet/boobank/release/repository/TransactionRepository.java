@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import jussinet.boobank.release.entity.Transaction;
+import jussinet.boobank.release.repository.queryinterfaces.TransactionApiData;
+import jussinet.boobank.release.repository.queryinterfaces.TransactionData;
 
 public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
 
