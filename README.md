@@ -88,6 +88,47 @@ https://www.postman.com/downloads/
 - All done on a remote server! You can configure the CI/CD automation for the auto-deployment. The automation deployment needs the SSH key of the user and creates the build commands.
 
 
+### What kind of cumulative and monthly balance uses in code and query?
+
+#### Monthly balance and cumulative balance(s)
+
+The following query shows the monthly transactions and cumulative balances each month - date.´
+The query is used in `TransactionRepository.java` file
+
+Example:
+```sql
+SELECT
+    t.*
+FROM
+    (
+        SELECT
+            id,
+            amount,
+            DATE(created_at) AS date,
+            comment as message,
+            customer_id,
+            SUM(amount) OVER(
+                ORDER BY
+                    created_at
+            ) AS cumulativesum
+        FROM
+            transactions
+        WHERE
+            (
+                '2023-07-31' IS NULL
+                OR DATE(created_at) <= TO_TIMESTAMP('2023-07-31', 'YYYY-MM-DD')
+            )
+    ) t
+WHERE
+    (
+        '2023-07-01' IS NULL
+        OR date >= TO_TIMESTAMP('2023-07-01', 'YYYY-MM-DD')
+    )
+ORDER by
+    date ASC
+```
+
+
 ### How to test Rest APIs?
 - Check the API section in this file. Postman application is useful to use those things.
 
