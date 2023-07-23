@@ -30,7 +30,8 @@ We list the methods, and how to use the Java Spring Application.
 ### WSL (Windows Subsystem for Linux)
 - Install Java, Maven, and PostgreSQL on your local server (see the requirements section)
 - In PostgreSQL installation, remember the username and password, and what are you using. 
-- You can create the new database and give it a name: `boobank`. The username and password are required in database configuration in the file `application.properties`. 
+- You can create the new database in PostgreSQL and give a name: `boobank`. The username and password are required in database configuration in the file `application.properties`. 
+    - Attention! If you want, you can import the SQL dump file into the database. It can be found in `sqldumps` directory.
 - Fill the `spring.datasource.username` and `spring.datasource.password`. Check the `spring.datasource.url`, if it's a valid host. It can be `jdbc:postgresql://127.0.0.1:5432/boobank` or `jdbc:postgresql://localhost:5432/boobank`
 
 ## Usage
@@ -83,12 +84,12 @@ https://www.postman.com/downloads/
         - `sudo apt install postgresql postgresql-contrib`
         - after installation, configure the username, password and database 
     - and optional libraries, if needed (like Adminer for PostgreSQL Web UI).
-- Create a new SSH user (later for automation development like CI/CD. This is a simple and good enough (https://buddy.works/)
+- Create a new SSH user and genereate the new SSH key for automation development like CI/CD. This is a simple, easy and good enough for development automations. (https://buddy.works/)
 - Clone the repository in your remote host in somewhere your workspace directory.
 - Configure the `application.properties` file for the database settings and connection.
 - Clean and package the project manually in your remote host: `mvn clean package`. 
 - You can run the application manually in your remote host: `mvn spring-boot:run`. 
-- All done on a remote server! You can configure the CI/CD automation for the auto-deployment. The automation deployment needs the SSH key of the user and creates the build commands.
+- All done on a remote server! You can configure the CI/CD automation for the auto-deployment. The automation deployment needs the SSH key of the user and creates the build commands (e.g YML-config files).
 
 
 ### What kind of cumulative and monthly balance uses in code and query?
