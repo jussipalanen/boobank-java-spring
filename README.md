@@ -16,8 +16,11 @@ We list the methods, and how to use the Java Spring Application.
 - Install the Docker desktop on your computer: https://docs.docker.com/engine/install/
 - Complete the Docker installation (if you are using the WSL, remember to check WSL integration option)
     - If you are new on WSL, please read this: `https://learn.microsoft.com/en-us/windows/wsl/install`
-- Git clone the repository `git clone https://github.com/jussipalanen/bonkbank-java-spring.git` in your workspace e.g `/home/user/projects/boobank` or `C:/projects/boobank`
-- Go to the directory and run the main hell-script file `sh toolbox build` in your workspace directory or otherwise e.g.
+- Git clone the repository 
+    - `git clone https://github.com/jussipalanen/bonkbank-java-spring.git`
+    - or `git clone https://github.com/jussipalanen/boobank-java-spring.git` 
+        - in your workspace e.g `/home/user/projects/boobank` or `C:/projects/boobank`
+- Go to the directory and run the main shell-script (.sh) file `sh toolbox build` in your workspace directory `/home/user/projects/boobank/release` or otherwise e.g.
 `docker build -t boobank-demo` and then `docker compose up`
 - The compose file installs containers and required libraries, and initializes the database for JPA entities. You do not need to create a new database, because the compose file creates itself.
 - If the build was built successfully, try to go browser and type into the address bar: 
