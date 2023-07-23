@@ -92,7 +92,7 @@ https://www.postman.com/downloads/
 
 #### Monthly balance and cumulative balance(s)
 
-The following query shows the monthly transactions and cumulative balances each month - date.´
+The following query shows the monthly transactions and cumulative balances each month - date.
 The query is used in `TransactionRepository.java` file
 
 Example:
