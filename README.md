@@ -97,6 +97,7 @@ https://www.postman.com/downloads/
 - Strong authentication for user login and transaction confirmation. This uses the external OpenClient APIs like "Telia vahva tunnistautuminen".
 - Better validation of the forms
 - Filters on the transaction view
+- Better repository functions and the repository functions use the Postgres query functions.
 - ... any ideas?
 
 Hopefully this guide works! 
