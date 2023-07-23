@@ -43,7 +43,7 @@ Nothing special. You can see only the current balance of the test customer. "Dem
 This is a basic form. You can give input of amount, message, date, and customer. Fill in all of the fields, and try to submit a transaction. 
 
 ### Balances (transactions)
-This is a view of the balances (transactions). The table contains the ID (UUID), amount, message, and cumulative balance of transactions. The pagination, year, and month filters have been implemented in this section.
+This is a view of the balances (transactions). The table contains the ID (UUID), amount, message, and cumulative balance of transactions and shows the monthly balances too. The pagination, year, and month filters have been implemented in this section.
 
 
 ### API
