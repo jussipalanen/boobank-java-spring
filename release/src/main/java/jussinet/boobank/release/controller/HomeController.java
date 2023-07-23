@@ -140,6 +140,11 @@ public class HomeController {
         format.setCurrency(currency);
         String monthBalanceStr = format.format(monthlyBalance);
 
+        Float cumulativeSum = customerRepository.findCumulativeBalance() != null ? customerRepository.findCumulativeBalance() : 0;
+        format.setCurrency(currency);
+        String cumulativeSumStr = format.format(cumulativeSum);
+        model.addAttribute("cumulativeSum", cumulativeSumStr);
+
         // Years
         LocalDate d = LocalDate.now();
         List<Integer> yearsList = new ArrayList<>();

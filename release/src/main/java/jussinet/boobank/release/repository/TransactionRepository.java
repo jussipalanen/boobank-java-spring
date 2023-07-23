@@ -19,22 +19,25 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     List<TransactionApiData> findAllTransactions(Pageable pageable);
 
     /**
-     * Fetching all of the transactions with the specific fields, and pagination
+     * Fetching all of the transactions with the specific fields and pagination, and date range
      * @return
      */
-    @Query(value = "SELECT t.* " + 
-            "FROM ( " + 
-            "  SELECT  " + 
-            " id, " + 
-            " amount, " + 
-            " DATE(created_at) AS date,  " + 
-            " comment as message, " + 
-            " customer_id, " + 
-            " SUM(amount) OVER(ORDER BY created_at) AS cumulativesum  " + 
-            "  FROM transactions " + 
-            "  WHERE (:endDateStr IS NULL OR DATE(created_at) <= TO_TIMESTAMP(:endDateStr, 'YYYY-MM-DD')) " + 
-            ") t  " + 
-            "WHERE (:startDateStr IS NULL OR date >= TO_TIMESTAMP(:startDateStr, 'YYYY-MM-DD')) " + 
-            "ORDER by date ASC", nativeQuery = true)
+    String customQueryStr = "SELECT t.* " + 
+        "FROM ( " + 
+        "  SELECT  " + 
+        " id, " + 
+        " amount, " + 
+        " DATE(created_at) AS date,  " + 
+        " comment as message, " + 
+        " customer_id, " + 
+        " SUM(amount) OVER(ORDER BY created_at) AS cumulativesum  " + 
+        "  FROM transactions " + 
+        "  WHERE (:endDateStr IS NULL OR DATE(created_at) <= TO_TIMESTAMP(:endDateStr, 'YYYY-MM-DD')) " + 
+        ") t  " + 
+        "WHERE (:startDateStr IS NULL OR date >= TO_TIMESTAMP(:startDateStr, 'YYYY-MM-DD')) " + 
+    "ORDER by date ASC";
+
+    // Added countQuery for the countable query (incl. subqueries) to work the cumulatives
+    @Query(value = customQueryStr, countQuery = customQueryStr, nativeQuery = true)
     Page<TransactionData> findAllPaged(@Param(value = "startDateStr") String startDateStr, @Param(value = "endDateStr") String endDateStr, Pageable page);
 }

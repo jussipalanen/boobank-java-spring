@@ -19,7 +19,6 @@
                         <div class="col">
                             <label for="month">Year:</label>
                             <select class="form-control" name="year">
-                                <option value="">All</option>
                                 <option th:each="yearVal: ${years}" th:selected="${year==yearVal}" th:value="${yearVal}"
                                     th:text="${yearVal}">
                             </select>
@@ -27,7 +26,6 @@
                         <div class="col">
                             <label for="month">Month:</label>
                             <select class="form-control" name="month">
-                                <option value="">All</option>
                                 <option th:each="monthItem: ${months}" th:selected="${month==monthItem.number}"
                                     th:value="${monthItem.number}" th:text="${monthItem.name}">
                             </select>
@@ -41,6 +39,8 @@
                                 <option th:selected="${size==25}" value="25">25</option>
                                 <option th:selected="${size==50}" value="50">50</option>
                                 <option th:selected="${size==100}" value="100">100</option>
+                                <option th:selected="${size==500}" value="500">500</option>
+                                <option th:selected="${size==1000}" value="1000">1000</option>
                             </select>
                         </div>
 
@@ -63,24 +63,33 @@
                     <tbody>
                         <tr th:each="transaction: ${transactions}">
                             <th scope="row" th:text="${transaction.id}" />
-                            <td th:style="${transaction.amount > 0 ? 'color: green;' : 'color: red;'}"th:text="${#numbers.formatDecimal(transaction.amount, 0, 'DEFAULT', 2, 'DEFAULT') + ' &euro;' }" />
+                            <td th:style="${transaction.amount > 0 ? 'color: green;' : 'color: red;'}" th:text="${#numbers.formatDecimal(transaction.amount, 0, 'DEFAULT', 2, 'COMMA') + ' &euro;' }" />
                             <td th:text="${#dates.format(transaction.date, 'dd.MM.yyyy')}" />
                             <td th:text="${transaction.message}" />
-                            <td th:style="${'color: blue;'}" th:text="${#numbers.formatDecimal(transaction.cumulativeSum, 0, 'DEFAULT', 2, 'DEFAULT') + ' &euro;'}" />
+                            <td th:style="${'color: blue;'}" th:text="${#numbers.formatDecimal(transaction.cumulativeSum, 0, 'DEFAULT', 2, 'COMMA') + ' &euro;'}" />
                         </tr>
                     </tbody>
                 </table>
 
-                <div class="pagination">
-                    <div th:if="${transactions.totalPages > 0}" class="page-link" th:each="pageNumber : ${pageNumbers}">
-                        <a th:href="@{/balances(page=${pageNumber}, size=${transactions.size}, month=${month}, year=${year})}"
-                            th:text=${pageNumber} th:class="${pageNumber==transactions.number + 1} ? active"></a>
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="pagination">
+                            <div th:if="${transactions.totalPages > 0}" class="page-link" th:each="pageNumber : ${pageNumbers}">
+                                <a th:href="@{/balances(page=${pageNumber}, size=${transactions.size}, month=${month}, year=${year})}"
+                                    th:text=${pageNumber} th:class="${pageNumber==transactions.number + 1} ? active"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <p>
-                    Month balance total: <b th:text=${monthBalance}></b>
-                </p>
+                <div class="row mt-3">
+                    <div class="col">
+                        <p>
+                            Month balance: <b th:text=${monthBalance}></b>
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

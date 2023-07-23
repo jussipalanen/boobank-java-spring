@@ -38,7 +38,7 @@ public class Transaction {
     private UUID id = UUID.randomUUID();
 
     @CreatedDate
-    @NotNull
+    @NotNull(message = "The date cannot be null or empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date date;
@@ -46,7 +46,7 @@ public class Transaction {
     @Column(name = "comment", columnDefinition = "TEXT")
     private String message;
 
-    @NotNull
+    @NotNull(message = "The amount cannot be null or empty")
     @Column(name = "amount")
     private Float amount = null;
 

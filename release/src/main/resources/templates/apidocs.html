@@ -15,7 +15,17 @@
                 <div class="api-item">
                     <h3>Transactions</h3>
                     <p>Fetch all transactions</p>
-                    <code th:text=|${baseApiUrl}/transactions|></code>
+                    <p>Optional query parameters:</p>
+                    <ul>
+                        <li>page=1</li>
+                        <li>size=10</li>
+                        <li>sortBy=id|date|amount</li>
+                        <li>sortDirection=ASC|DESC</li>
+                    </ul>
+
+                    <p>
+                        Request URI: <code th:text=|${baseApiUrl}/transactions|></code>
+                    </p>
                     <pre>
             <code>  
                     [

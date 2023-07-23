@@ -34,11 +34,19 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
      * @param customer_id
      * @return
      */
-    @Query(value = "SELECT sum FROM " + 
-            "( " + 
-            " SELECT t1.created_at as date, SUM(t1.amount) OVER (ORDER BY t1.created_at) FROM transactions as t1 " + 
-            ") as trans " + 
-            "WHERE date BETWEEN SYMMETRIC TO_TIMESTAMP(:startDateStr, 'YYYY-MM-DD') AND TO_TIMESTAMP(:endDateStr, 'YYYY-MM-DD') " + 
-            "ORDER BY date DESC LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT t.cumulativesum " + 
+        "FROM ( " + 
+        "  SELECT  " + 
+        " id, " + 
+        " amount, " + 
+        " DATE(created_at) AS date,  " + 
+        " comment as message, " + 
+        " customer_id, " + 
+        " SUM(amount) OVER(ORDER BY created_at) AS cumulativesum  " + 
+        "  FROM transactions " + 
+        "  WHERE (:endDateStr IS NULL OR DATE(created_at) <= TO_TIMESTAMP(:endDateStr, 'YYYY-MM-DD')) " + 
+        ") t  " + 
+        "WHERE (:startDateStr IS NULL OR date >= TO_TIMESTAMP(:startDateStr, 'YYYY-MM-DD')) " + 
+    "ORDER by date DESC LIMIT 1", nativeQuery = true)
     Float findMonthlyBalance(@Param(value = "startDateStr") String startDateStr, @Param(value = "endDateStr") String endDateStr);
 }
