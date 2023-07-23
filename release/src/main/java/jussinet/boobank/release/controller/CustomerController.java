@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jussinet.boobank.release.entity.Customer;
 import jussinet.boobank.release.repository.CustomerRepository;
 
+/*
+ * Customer API
+ */
 @RestController
+@RequestMapping("/api/v1")
 public class CustomerController {
 
 
@@ -28,7 +33,7 @@ public class CustomerController {
      * 
      * @return
      */
-    @GetMapping(value = "/api/customers")
+    @GetMapping(value = "/customers")
     List<Customer> all() {
         return repository.findAll();
     }
@@ -39,18 +44,18 @@ public class CustomerController {
      * @param id
      * @return
      */
-    @GetMapping(value = "/api/customer/{id}")
+    @GetMapping(value = "/customers/{id}")
     public Optional<Customer> get(@PathVariable int id) {
         return repository.findById(id);
     }
 
 
-    @PostMapping
     /**
      * Create a new customer
      * @param customer
      * @return
      */
+    @PostMapping(value = "/customers/save")
     public Customer post(Customer customer)
     {
         repository.save(customer);

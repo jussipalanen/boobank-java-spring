@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import jussinet.boobank.release.repository.TransactionRepository;
 import jussinet.boobank.release.repository.queryinterfaces.TransactionApiData;
 
+/**
+ * Transaction API
+ */
 @RestController
 @RequestMapping("/api/v1")
 public class TransactionController {

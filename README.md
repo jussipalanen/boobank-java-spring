@@ -96,7 +96,7 @@ https://www.postman.com/downloads/
 #### Monthly balance and cumulative balance(s)
 
 The following query shows the monthly transactions and cumulative balances each month - date.
-The query is used in `TransactionRepository.java` file
+The query is used in `TransactionRepository.java` file. 
 
 Example:
 ```sql
@@ -129,6 +129,40 @@ WHERE
     )
 ORDER by
     date ASC
+```
+
+#### Single row of latest balance (cumulative balance)
+```sql
+SELECT
+    SUM(t1.amount) OVER (
+        ORDER BY
+            t1.created_at
+    )
+FROM
+    transactions as t1
+ORDER BY
+    created_at DESC
+LIMIT
+    1
+```
+
+#### List of the latest balances (cumulative balances)
+```sql
+SELECT
+    t1.id,
+    t1.amount,
+    t1.created_at,
+    t1.comment,
+    (
+        SUM(t1.amount) OVER (
+            ORDER BY
+                t1.created_at
+        )
+    ) as cumulativesum
+FROM
+    transactions as t1
+ORDER BY
+    created_at ASC
 ```
 
 
