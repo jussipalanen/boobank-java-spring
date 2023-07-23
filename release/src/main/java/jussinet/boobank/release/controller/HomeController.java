@@ -34,6 +34,10 @@ import jussinet.boobank.release.repository.TransactionRepository;
 import jussinet.boobank.release.repository.queryinterfaces.TransactionData;
 
 @Controller
+
+/**
+ * Main controller (for the backend web pages)
+ */
 public class HomeController {
 
     @Autowired
@@ -46,6 +50,12 @@ public class HomeController {
         this.transactionRepository = transactionRepository;
     }
 
+
+    /**
+     * Home page
+     * @param model
+     * @return
+     */
     @GetMapping("/")
     public String index(Model model) {
         Currency currency = Currency.getInstance("EUR");
@@ -60,6 +70,11 @@ public class HomeController {
         return "index";
     }
 
+    /**
+     * Get transaction form page
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/transaction")
     public String getTransaction(Model model) {
 
@@ -74,6 +89,11 @@ public class HomeController {
         return "transaction";
     }
 
+    /**
+     * Show API docs page
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/apidocs")
     public String getApiDocs(Model model) {
 
@@ -82,6 +102,13 @@ public class HomeController {
         return "apidocs";
     }
 
+    /**
+     * Post data of transaction
+     * @param model
+     * @param transaction
+     * @param result
+     * @return
+     */
     @PostMapping(value = "/transaction")
     public String postTransaction(Model model, @ModelAttribute("transaction") @Valid Transaction transaction,
             BindingResult result) {
@@ -106,6 +133,15 @@ public class HomeController {
         return "redirect:/";
     }
 
+    /**
+     * Get the monthly balances, and this shows cumulative balances too
+     * @param model
+     * @param month
+     * @param year
+     * @param page
+     * @param size
+     * @return
+     */
     @GetMapping("/balances")
     public String balances(Model model, @RequestParam(required = false) Integer month,
             @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
