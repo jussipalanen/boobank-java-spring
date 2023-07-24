@@ -91,7 +91,8 @@ https://www.postman.com/downloads/
 - Configure the `application.properties` file for the database settings and connection.
 - Clean and package the project manually in your remote host: `mvn clean package`. 
 - You can run the application manually in your remote host: `mvn spring-boot:run`. 
-- All done on a remote server! You can configure the CI/CD automation for the auto-deployment. The automation deployment needs the SSH key of the user and creates the build commands (e.g YML-config files).
+- Coding the new stuff in your production and staging servers. The code needs the pull request "PR" check. Somebody needs to check your code before approving. This confirms and prevents faulty and bug code to the server.
+- All done! You can configure the CI/CD automation for the auto-deployment. The automation deployment needs the SSH key of the user and creates the build commands (e.g YML-config files).
 
 
 ### What kind of cumulative and monthly balance uses in code and query?
