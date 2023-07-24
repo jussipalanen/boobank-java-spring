@@ -74,6 +74,8 @@ https://www.postman.com/downloads/
     - https://www.hetzner.com/
     - Microsoft Azure
 - Buy a plan, and create a new host (like Ubuntu & Linux virtual host)
+- Create both staging and live instances in the hosting provider (this feature is available in Kinsta)
+    - The staging server needs a secure VPN connection or something else method.
 - Install all of the required libraries and packages for this application: 
     - Java
         - `sudo apt-get install openjdk-17-jdk openjdk-17-jre`
@@ -99,7 +101,6 @@ https://www.postman.com/downloads/
 The following query shows the monthly transactions and cumulative balances each month - date.
 The query is used in `TransactionRepository.java` file. 
 
-Example:
 ```sql
 SELECT
     t.*
@@ -132,7 +133,44 @@ ORDER by
     date ASC
 ```
 
-#### Single row of latest balance (cumulative balance)
+#### Single row of monthly balance
+
+```sql
+SELECT
+    t.cumulativesum
+FROM
+    (
+        SELECT
+            id,
+            amount,
+            DATE(created_at) AS date,
+            comment as message,
+            customer_id,
+            SUM(amount) OVER(
+                ORDER BY
+                    created_at
+            ) AS cumulativesum
+        FROM
+            transactions
+        WHERE
+            (
+                '2023-07-31' IS NULL
+                OR DATE(created_at) <= TO_TIMESTAMP('2023-07-31', 'YYYY-MM-DD')
+            )
+    ) t
+WHERE
+    (
+        '2023-07-01' IS NULL
+        OR date >= TO_TIMESTAMP('2023-07-01', 'YYYY-MM-DD')
+    )
+ORDER by
+    date DESC
+LIMIT
+    1
+```
+
+
+#### Single row of latest cumulative balance 
 ```sql
 SELECT
     SUM(t1.amount) OVER (
@@ -147,7 +185,7 @@ LIMIT
     1
 ```
 
-#### List of the latest balances (cumulative balances)
+#### List of the latest cumulative balances
 ```sql
 SELECT
     t1.id,
