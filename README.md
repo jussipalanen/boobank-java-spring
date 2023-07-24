@@ -47,7 +47,12 @@ This is a view of the balances (transactions). The table contains the ID (UUID),
 
 
 ### API
-#### List all of the transactions
+
+#### Transactions
+
+You can find all of the transaction API calls from the file `TransactionController.java`
+
+##### List all of the transactions
 - URL: `http://localhost:8080/api/v1/transactions`
 - Optional query GET parameters:
     - page=1
@@ -56,7 +61,7 @@ This is a view of the balances (transactions). The table contains the ID (UUID),
     - sortBy=id|amount|date
 - Example: `http://localhost:8080/api/v1/transactions?page=1&size=100&sortBy=date&sortDirection=DESC`
 
-#### Count of the transactions
+##### Count of the transactions
 - URL: `http://localhost:8080/api/v1/transactions/count`
 
 https://www.postman.com/downloads/
@@ -220,5 +225,18 @@ ORDER BY
 
 Hopefully this guide works! 
 
-Best regards,
-Jussi Alanen
+## Screenshots
+
+### Monthly balance, transactions (with filters), and cumulative balance(s)
+
+![image description](screenshots/screenshot1.png)
+
+### API transaction view
+![image description](screenshots/screenshot2.png)
+
+### Add transaction
+![image description](screenshots/screenshot3.png)
+
+### Home page
+(This shows the latest cumulative balance of the current customer.)
+![image description](screenshots/screenshot4.png)
